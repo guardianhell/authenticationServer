@@ -24,22 +24,28 @@ exports.registerNewUser = async function (req, res) {
     let hashPassword = await encryptPassword(req.body.password);
     let birth_date = moment(req.body.birth_date).valueOf();
 
-    const result = await db.pool.query({
-      text: "INSERT INTO users (first_name,last_name,email,password,mobile_phone, birth_date, user_levels,status,created_at,updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *",
-      values: [
-        req.body.first_name,
-        req.body.last_name,
-        req.body.email,
-        hashPassword,
-        req.body.mobile_phone,
-        birth_date,
-        req.body.user_levels,
-        req.body.status,
-        created_at,
-        updated_at,
-      ],
-    });
-    return res.status(201).send(result.rows[0]);
+    const result = await db.pool
+      .query({
+        text: "INSERT INTO users (first_name,last_name,email,password,mobile_phone, birth_date, user_levels,status,created_at,updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *",
+        values: [
+          req.body.first_name,
+          req.body.last_name,
+          req.body.email,
+          hashPassword,
+          req.body.mobile_phone,
+          birth_date,
+          req.body.user_levels,
+          req.body.status,
+          created_at,
+          updated_at,
+        ],
+      })
+      .then((res) => {
+        console.log(res.data);
+        return res.data;
+      });
+
+    return res.status(201).send(result);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error.message);
