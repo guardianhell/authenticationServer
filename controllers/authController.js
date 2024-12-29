@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const db = require("../util/dbconnection.js");
 const validation = require("../validation.js");
+const cli = require("nodemon/lib/cli/index.js");
 
 exports.registerNewUser = async function (req, res) {
   try {
@@ -24,7 +25,11 @@ exports.registerNewUser = async function (req, res) {
     let hashPassword = await encryptPassword(req.body.password);
     let birth_date = moment(req.body.birth_date).valueOf();
 
-    const result = await db.pool
+    const client = await db.pool.connect();
+
+    await client.query("BEGIN");
+
+    const result = await client
       .query({
         text: "INSERT INTO users (first_name,last_name,email,password,mobile_phone, birth_date, user_levels,status,created_at,updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *",
         values: [
@@ -40,8 +45,9 @@ exports.registerNewUser = async function (req, res) {
           updated_at,
         ],
       })
-      .then((res) => {
-        console.log(res.data);
+      .then(async (res) => {
+        await client.query("COMMIT");
+        console.log(res);
         return res.data;
       });
 
