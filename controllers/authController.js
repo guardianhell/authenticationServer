@@ -47,8 +47,13 @@ exports.registerNewUser = async function (req, res) {
       })
       .then(async (res) => {
         await client.query("COMMIT");
+        const data = {
+          status: 200,
+          message: "success",
+          result: res.rows,
+        };
         console.log(res);
-        return res.data;
+        return data;
       });
 
     return res.status(201).send(result);
