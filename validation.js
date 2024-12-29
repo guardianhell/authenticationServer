@@ -6,12 +6,12 @@ exports.registerValidation = function (data) {
     first_name: Joi.string().min(1).max(128).required(),
     last_name: Joi.string().min(1).max(128).required(),
     email: Joi.string().min(1).max(128).email().required(),
-    mobile_phone: Joi.string().min(1).max(13).required(),
-    birth_date: Joi.date().iso().less("now").required(),
+    mobile_phone: Joi.string().min(1).max(13),
+    birth_date: Joi.date().iso().less("now"),
     user_levels: Joi.number().min(1).max(9999).required(),
     password: Joi.string().min(6).alphanum().required(),
     status: Joi.number().min(1).max(9999).positive().integer().required(),
-    repeat_password: Joi.ref("password"),
+    repeat_password: Joi.ref("password").required(),
   });
   return schema.validate(data);
 };
