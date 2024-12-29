@@ -11,7 +11,7 @@ exports.registerValidation = function (data) {
     user_levels: Joi.number().min(1).max(9999).required(),
     password: Joi.string().min(6).alphanum().required(),
     status: Joi.number().min(1).max(9999).positive().integer().required(),
-    repeat_password: Joi.ref("password").required(),
+    repeat_password: Joi.ref("password"),
   });
   return schema.validate(data);
 };
