@@ -64,43 +64,46 @@ exports.registerNewUser = async function (req, res) {
 };
 
 exports.loginUser = async function (req, res) {
-  // try {
-  console.log(req.body.email);
-  var valid = validation.emailLoginValidation(req.body.email);
+  try {
+    console.log(req.body.email);
+    var valid = validation.emailLoginValidation(req.body.email);
 
-  var valid = {};
+    var valid = {};
 
-  if (valid.error) {
-    return res.status(417).send("Invalid Email Format");
+    if (valid.error) {
+      return res.status(417).send("Invalid Email Format");
+    }
+
+    const user = await getUserByEmail(req.body.email);
+
+    if (!user[0]) {
+      return res.status(404).send("Invalid email or password");
+    }
+
+    const passwordValidation = await validatePassword(
+      req.body.password,
+      user[0]
+    );
+
+    if (!passwordValidation) {
+      return res.status(404).send("Invalid email or password");
+    }
+
+    const token = await jwt.sign({ id: user[0].id }, process.env.AUTHTOKEN, {
+      expiresIn: "15m",
+    });
+
+    res.cookie("Authorization", token, {
+      secure: true,
+      sameSite: "none",
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    return res.status(201).send("Login Success");
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).send(error.message);
   }
-
-  const user = await getUserByEmail(req.body.email);
-
-  if (!user[0]) {
-    return res.status(404).send("Invalid email or password");
-  }
-
-  const passwordValidation = await validatePassword(req.body.password, user[0]);
-
-  if (!passwordValidation) {
-    return res.status(404).send("Invalid email or password");
-  }
-
-  const token = await jwt.sign({ id: user[0].id }, process.env.AUTHTOKEN, {
-    expiresIn: "15m",
-  });
-
-  res.cookie("Authorization", token, {
-    secure: true,
-    sameSite: "none",
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 30,
-  });
-  return res.status(201).send("Login Success");
-  // } catch (error) {
-  //   console.log(error.message);
-  //   return res.status(500).send(error.message);
-  // }
 };
 
 async function encryptPassword(password) {
