@@ -7,6 +7,11 @@ const cors = require("cors");
 
 const port = process.env.PORT || "5050";
 
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+
 const authRoute = require("./routes/authRoute.js");
 
 const app = express();
@@ -24,7 +29,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(cors());
+app.use(cors(corsConfig));
 
 app.use("/api-v1/auth", authRoute);
 
