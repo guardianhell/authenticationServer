@@ -16,6 +16,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ limit: "2mb", extended: true }));
 app.use(function (req, res, next) {
   res.header("Content-Type", "application/json;charset=UTF-8");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
