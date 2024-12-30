@@ -110,9 +110,8 @@ exports.getUserByToken = async function (req, res) {
   try {
     if (req.user) {
       const user = await getUserById(req.user.id);
-      console.log(user);
 
-      return user;
+      return res.status(200).send(user);
     }
   } catch (error) {
     console.log(error.message);
