@@ -106,6 +106,20 @@ exports.loginUser = async function (req, res) {
   }
 };
 
+exports.getUserByToken = async function (req, res) {
+  try {
+    if (req.user) {
+      const user = await getUserById(req.user.id);
+      console.log(user);
+
+      return user;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).send(error.message);
+  }
+};
+
 async function encryptPassword(password) {
   const saltround = 10;
   return await bcrypt.hash(password, saltround);
