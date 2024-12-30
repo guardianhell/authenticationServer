@@ -2,9 +2,9 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async function (req, res, next) {
   try {
-    console.log(req);
+    console.log(req.Header);
 
-    var token = req.Cookie;
+    var token = req.Header.Cookie;
 
     console.log(token);
 
