@@ -6,7 +6,7 @@ const verify = require("../verify.js");
 
 router.post("/register", authController.registerNewUser);
 router.post("/login", authController.loginUser);
-router.get("/userData", verify, authController.getUserByToken);
+router.get("/userData", verify, authController.getUserNameByToken);
 router.post("/verify", async function (req, res) {
   var token = req.headers.cookie;
   console.log(token);
