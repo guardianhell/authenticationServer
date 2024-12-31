@@ -106,12 +106,18 @@ exports.loginUser = async function (req, res) {
   }
 };
 
-exports.getUserByToken = async function (req, res) {
+exports.getUserNameByToken = async function (req, res) {
   try {
     if (req.user) {
       const user = await getUserById(req.user.id);
+      const first_name = user.data[0].first_name;
+      const last_name = user.data[0].last_name;
 
-      return res.status(200).send(user);
+      const data = {
+        first_name: first_name,
+        last_name: last_name,
+      };
+      return res.status(200).send(data);
     }
   } catch (error) {
     console.log(error.message);

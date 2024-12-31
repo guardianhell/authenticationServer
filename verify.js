@@ -13,6 +13,7 @@ module.exports = async function (req, res, next) {
     token = token.replace("Authorization=", "");
 
     const verified = await jwt.verify(token, process.env.AUTHTOKEN);
+    console.log(verified);
 
     if (verified) {
       req.user = verified;
