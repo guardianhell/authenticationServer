@@ -17,9 +17,12 @@ module.exports = async function (req, res, next) {
       process.env.AUTHTOKEN,
       (error, result) => {
         if (error) {
-          console.log(error);
+          const errorMessage = {
+            Code: 401,
+            message: "Forbidden",
+          };
+          return res.status(401).send(errorMessage);
         } else {
-          console.log("IS VERI : " + verified);
           req.user = verified;
         }
       }

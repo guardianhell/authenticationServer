@@ -76,7 +76,7 @@ exports.loginUser = async function (req, res) {
 
     const user = await getUserByEmail(req.body.email);
 
-    if (!user[0]) {
+    if (!user) {
       return res.status(404).send("Invalid email or password");
     }
 
