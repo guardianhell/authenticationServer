@@ -86,9 +86,7 @@ exports.loginUser = async function (req, res) {
       return res.status(404).send("Invalid email or password");
     }
 
-    const token = await jwt.sign({ id: user[0].id }, process.env.AUTHTOKEN, {
-      expiresIn: "15m",
-    });
+    const token = await jwt.sign({ id: user[0].id }, process.env.AUTHTOKEN);
 
     await res.cookie("Authorization", token, {
       // secure: true,
