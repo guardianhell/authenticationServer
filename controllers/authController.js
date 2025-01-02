@@ -65,7 +65,7 @@ exports.registerNewUser = async function (req, res) {
 
 exports.loginUser = async function (req, res) {
   try {
-    var valid = validation.emailLoginValidation(req.body.email);
+    var valid = validation.emailLoginValidation(req.body);
 
     console.log(valid);
 
