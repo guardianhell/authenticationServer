@@ -68,10 +68,8 @@ exports.loginUser = async function (req, res) {
     console.log(req.body.email);
     var valid = validation.emailLoginValidation(req.body.email);
 
-    var valid = {};
-
     if (valid.error) {
-      return res.status(417).send("Invalid Email Format");
+      return res.status(417).send("Invalid Email/Password Format");
     }
 
     const user = await getUserByEmail(req.body.email);
