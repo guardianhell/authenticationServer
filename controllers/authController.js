@@ -65,9 +65,7 @@ exports.registerNewUser = async function (req, res) {
 
 exports.loginUser = async function (req, res) {
   try {
-    var valid = validation.emailLoginValidation(req.body);
-
-    console.log(valid);
+    var valid = await validation.emailLoginValidation(req.body);
 
     if (valid.error) {
       return res.status(417).send("Invalid Email or Password Format");
@@ -75,7 +73,7 @@ exports.loginUser = async function (req, res) {
 
     const user = await getUserByEmail(req.body.email);
 
-    if (!user) {
+    if (user.length === 0) {
       return res.status(404).send("Invalid email or password");
     }
 
@@ -130,8 +128,6 @@ async function encryptPassword(password) {
 }
 
 async function validatePassword(password, user) {
-  //   const user = await getUserById(user.id);
-  console.log(user.password);
   const encryptPassword = user.password;
   const result = await bcrypt.compare(password, encryptPassword);
   console.log(result);
