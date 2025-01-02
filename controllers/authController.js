@@ -90,7 +90,7 @@ exports.loginUser = async function (req, res) {
       expiresIn: "15m",
     });
 
-    res.cookie("Authorization", token, {
+    await res.cookie("Authorization", token, {
       // secure: true,
       // sameSite: "none",
       httpOnly: true,
