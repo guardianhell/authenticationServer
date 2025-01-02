@@ -9,7 +9,7 @@ exports.registerValidation = function (data) {
     mobile_phone: Joi.string().min(1).max(13),
     birth_date: Joi.date().iso().less("now"),
     user_levels: Joi.number().min(1).max(9999).required(),
-    password: Joi.string().min(6).alphanum().required(),
+    password: Joi.string().min(6).required(),
     status: Joi.number().min(1).max(9999).positive().integer().required(),
     repeat_password: Joi.ref("password"),
   });
@@ -19,7 +19,7 @@ exports.registerValidation = function (data) {
 exports.emailLoginValidation = function (data) {
   const schema = Joi.object({
     email: Joi.string().min(1).max(128).email().required(),
-    password: Joi.string().min(6).alphanum().required(),
+    password: Joi.string().min(6).required(),
   });
 
   return schema.validate(data);

@@ -24,11 +24,10 @@ module.exports = async function (req, res, next) {
           return res.status(401).send(errorMessage);
         } else {
           req.user = verified;
+          next();
         }
       }
     );
-
-    next();
   } catch (error) {
     console.log(error);
     return res.status(500).send(error.message);
