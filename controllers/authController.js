@@ -94,7 +94,7 @@ exports.loginUser = async function (req, res) {
       // secure: true,
       // sameSite: "none",
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 30,
+      // maxAge: 60 * 60 * 24 * 30,
     });
     return res.status(201).send("Login Success");
   } catch (error) {
