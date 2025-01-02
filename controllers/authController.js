@@ -109,8 +109,8 @@ exports.getUserNameByToken = async function (req, res) {
       const user = await getUserById(req.user.id);
       console.log(user);
 
-      const first_name = user.data[0].first_name;
-      const last_name = user.data[0].last_name;
+      const first_name = user[0].first_name;
+      const last_name = user[0].last_name;
 
       const data = {
         first_name: first_name,
