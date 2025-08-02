@@ -201,10 +201,11 @@ exports.redirect = async function (req, res) {
     console.log(req.session);
 
     await res.cookie("jwt", authToken, {
-      secure: false,
+      secure: true,
       sameSite: "none",
       httpOnly: true,
       maxAge: 1000 * 60 * 30,
+      domain: ".pandoorbox.com",
     });
     return res.redirect(process.env.LOGINREDIRECT);
   }
