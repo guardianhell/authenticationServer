@@ -202,7 +202,7 @@ exports.redirect = async function (req, res) {
 
     await res.cookie("jwt", authToken, {
       secure: true,
-      // sameSite: "none",
+      sameSite: "none",
       httpOnly: true,
       maxAge: 1000 * 60 * 30,
     });
